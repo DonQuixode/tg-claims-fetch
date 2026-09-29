@@ -56,8 +56,8 @@ python3 tg_claims_fetch.py --list
   form type, file, the `From date` / `To date` found in the PDF header,
   the number of rows on that date, and the status.
 
-Status values: `OK`, `DATE MISMATCH`, `FAILED: <reason>`, or a note when pypdf
-is not installed.
+Status values: `OK`, `DATE MISMATCH`, `NO DATA` (no records on that date),
+`FAILED: <reason>`, or a note when pypdf is not installed.
 
 ## Validation
 
@@ -70,7 +70,9 @@ For every PDF the tool checks:
 
 - Dates must be `yyyy-mm-dd`. The website rejects `dd-mm-yyyy`, even though its
   date picker displays that format.
-- The published claims period on the site is **17.08.2026 to 16.09.2026**.
+- The published claims period on the site is 17.08.2026 to 16.09.2026, but the
+  database contains records from earlier dates (Form 9 records exist at least
+  back to 26.07.2026). The tool accepts any date. Empty dates return `NO DATA`.
 - The website has an invalid TLS certificate chain. The tool warns and
   continues without certificate verification (same as `curl -k`).
 - Runs of more than 100 PDFs ask for confirmation. Use `--yes` to skip this.

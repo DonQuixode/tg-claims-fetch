@@ -370,9 +370,11 @@ def main():
                     except Exception as e:
                         pdf, err = None, str(e)
                     if pdf is None:
-                        print("  FAILED: %s" % err)
+                        status = ("NO DATA" if "No Record Found" in err
+                                  else "FAILED: %s" % err)
+                        print("  %s" % status)
                         w.writerow([date_iso, dlbl, albl, form, name,
-                                    "", "", 0, "FAILED: %s" % err])
+                                    "", "", 0, status])
                         continue
                     with open(path, "wb") as f:
                         f.write(pdf)
